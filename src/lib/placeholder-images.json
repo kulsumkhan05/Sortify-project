@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A person sorting different types of waste into recycling bins.",
+      "imageUrl": "https://images.unsplash.com/photo-1562240020-ce31ccb0fa7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZWN5Y2xpbmclMjBzb3J0aW5nfGVufDB8fHx8MTc2NTI0MTMzOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "recycling sorting"
+    },
+    {
+      "id": "reward-coffee",
+      "description": "A cup of coffee from a local cafe.",
+      "imageUrl": "https://images.unsplash.com/photo-1595434091143-b375ced5fe5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb2ZmZWUlMjBjdXB8ZW58MHx8fHwxNzY1MTg3NjgwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "coffee cup"
+    },
+    {
+      "id": "reward-plant",
+      "description": "A small potted plant.",
+      "imageUrl": "https://images.unsplash.com/photo-1668526450019-ae9924b3ac4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwb3R0ZWQlMjBwbGFudHxlbnwwfHx8fDE3NjUxNjU0OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "potted plant"
+    },
+    {
+      "id": "reward-tote",
+      "description": "A reusable tote bag.",
+      "imageUrl": "https://images.unsplash.com/photo-1630381260512-e3fe55c11973?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx0b3RlJTIwYmFnfGVufDB8fHx8MTc2NTE3NjYzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tote bag"
+    }
+  ]
 }
