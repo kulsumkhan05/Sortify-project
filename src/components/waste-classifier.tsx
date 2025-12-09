@@ -55,6 +55,15 @@ export default function WasteClassifier() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
+        // Automatically submit the form when an image is selected
+        if (formRef.current) {
+            // Can't just call formRef.current.submit() with server actions
+            // We need to trigger the submit button
+            const submitButton = formRef.current.querySelector('button[type="submit"]');
+            if (submitButton instanceof HTMLElement) {
+                submitButton.click();
+            }
+        }
       };
       reader.readAsDataURL(file);
     } else {
