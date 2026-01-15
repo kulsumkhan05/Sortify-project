@@ -14,6 +14,7 @@ export type ClassificationResult = {
   disposalTips: string;
   isImage: boolean;
   query: string;
+  confidence: number;
 };
 
 // Define the shape of the state for useFormState
@@ -82,6 +83,7 @@ export async function classifyWaste(
     ]);
 
     const points = 10 + Math.floor(Math.random() * 11); // 10-20 points
+    const confidence = Math.random() * (99.9 - 85) + 85; // Mock confidence score between 85% and 99.9%
 
     return {
       result: {
@@ -91,6 +93,7 @@ export async function classifyWaste(
         summary: summaryResult.summary,
         isImage,
         query: queryDisplay,
+        confidence,
       },
       timestamp: Date.now(),
     };

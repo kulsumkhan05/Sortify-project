@@ -1,7 +1,7 @@
 'use client';
 
 import { useFormState, useFormStatus } from 'react-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import Image from 'next/image';
 import { classifyWaste, type FormState } from '@/app/actions';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -28,7 +28,7 @@ function SubmitButton() {
       ) : (
         <>
           <Sparkles className="mr-2 h-4 w-4" />
-          Classify Item
+          Classify Waste
         </>
       )}
     </Button>
@@ -40,14 +40,16 @@ export default function WasteClassifier() {
   const [activeTab, setActiveTab] = useState('text');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
+  const resultKey = useMemo(() => state.timestamp, [state.timestamp]);
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
-    if (state.timestamp) { // New result or error from server
+    if (state.timestamp) {
       setShowResult(true);
     }
   }, [state.timestamp]);
-
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,15 +57,14 @@ export default function WasteClassifier() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
-        // Automatically submit the form when an image is selected
-        if (formRef.current) {
-            // Can't just call formRef.current.submit() with server actions
-            // We need to trigger the submit button
-            const submitButton = formRef.current.querySelector('button[type="submit"]');
-            if (submitButton instanceof HTMLElement) {
-                submitButton.click();
+        setTimeout(() => {
+            if (formRef.current) {
+                const submitButton = formRef.current.querySelector('button[type="submit"]');
+                if (submitButton instanceof HTMLElement) {
+                    submitButton.click();
+                }
             }
-        }
+        }, 100)
       };
       reader.readAsDataURL(file);
     } else {
@@ -74,11 +75,14 @@ export default function WasteClassifier() {
   const handleTryAgain = () => {
     setShowResult(false);
     formRef.current?.reset();
+    if(imageInputRef.current) {
+        imageInputRef.current.value = '';
+    }
     setImagePreview(null);
   };
 
   if (showResult && state.result) {
-    return <ClassificationResult result={state.result} onTryAgain={handleTryAgain} />;
+    return <ClassificationResult key={resultKey} result={state.result} onTryAgain={handleTryAgain} imagePreview={imagePreview} />;
   }
 
   return (
@@ -96,36 +100,47 @@ export default function WasteClassifier() {
             </TabsTrigger>
             <TabsTrigger value="image">
               <Camera className="mr-2 h-4 w-4" />
-              Scan with Camera
+              Upload Image
             </TabsTrigger>
           </TabsList>
           <form ref={formRef} action={formAction}>
             <TabsContent value="text" className="mt-4">
               <input type="hidden" name="submissionType" value="text" />
-              <div className="space-y-2">
-                <Label htmlFor="query">Item Description</Label>
-                <Textarea
-                  id="query"
-                  name="query"
-                  placeholder="e.g., 'plastic water bottle', 'used pizza box', 'old t-shirt'"
-                />
+              <div className="space-y-4">
+                <div>
+                    <Label htmlFor="query">Item Description</Label>
+                    <Textarea
+                    id="query"
+                    name="query"
+                    placeholder="e.g., 'plastic water bottle', 'used pizza box', 'old t-shirt'"
+                    className="mt-1"
+                    />
+                </div>
+                 <SubmitButton />
               </div>
             </TabsContent>
             <TabsContent value="image" className="mt-4">
               <input type="hidden" name="submissionType" value="image" />
-              <div className="space-y-2">
-                <Label htmlFor="image">Upload Image</Label>
-                <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange} />
+              <div className="space-y-2 text-center">
+                <Label htmlFor="image-upload" className="cursor-pointer">
+                    <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8 text-center hover:bg-gray-50">
+                        <Camera className="h-10 w-10 text-gray-400"/>
+                        <p className="mt-2 text-sm font-medium text-gray-600">Click to upload an image</p>
+                        <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                </Label>
+                <Input ref={imageInputRef} id="image-upload" name="image" type="file" accept="image/*" onChange={handleImageChange} className="sr-only" />
               </div>
               {imagePreview && (
                 <div className="mt-4 relative aspect-video w-full overflow-hidden rounded-md border">
                   <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
                 </div>
               )}
+               <div className="mt-6 hidden">
+                 <SubmitButton />
+               </div>
             </TabsContent>
-            <div className="mt-6">
-              <SubmitButton />
-            </div>
+           
           </form>
         </Tabs>
         {showResult && state.error && (

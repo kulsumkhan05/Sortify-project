@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Recycle, Gem } from 'lucide-react';
+import { Recycle, Gem, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Header() {
@@ -9,15 +9,21 @@ export default function Header() {
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Recycle className="h-6 w-6 text-primary" />
           <span className="font-bold sm:inline-block font-headline">
-            SortifyAI
+            SORTIFY
           </span>
         </Link>
         <nav className="flex items-center gap-4 text-sm lg:gap-6">
           <Link
             href="/"
+            className="transition-colors hover:text-foreground/80 text-foreground"
+          >
+            Home
+          </Link>
+          <Link
+            href="/activity"
             className="transition-colors hover:text-foreground/80 text-foreground/60"
           >
-            Classify
+            Activity
           </Link>
           <Link
             href="/rewards"
@@ -25,12 +31,24 @@ export default function Header() {
           >
             Rewards
           </Link>
+           <Link
+            href="/dashboard"
+            className="transition-colors hover:text-foreground/80 text-foreground/60"
+          >
+            Dashboard
+          </Link>
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
-           <Button asChild size="sm">
+           <Button asChild size="sm" variant="secondary">
             <Link href="/rewards">
               <Gem className="mr-2 h-4 w-4" />
               <span>150 Points</span>
+            </Link>
+          </Button>
+          <Button asChild size="icon" variant="ghost">
+            <Link href="/profile">
+              <User />
+              <span className="sr-only">Profile</span>
             </Link>
           </Button>
         </div>

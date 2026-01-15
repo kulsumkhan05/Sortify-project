@@ -3,9 +3,10 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import Header from '@/components/header';
 import { Toaster } from '@/components/ui/toaster';
+import Chatbot from '@/components/chatbot';
 
 export const metadata: Metadata = {
-  title: 'SortifyAI',
+  title: 'SORTIFY',
   description: 'AI-powered waste classification to help you sort smart and live green.',
 };
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Toaster />
+        <Chatbot />
       </body>
     </html>
   );

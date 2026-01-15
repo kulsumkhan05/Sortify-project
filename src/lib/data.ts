@@ -1,8 +1,8 @@
-import { type LucideIcon, Newspaper, Package, Factory, GlassWater, Leaf, Biohazard, Shirt } from 'lucide-react';
+import { type LucideIcon, Newspaper, Package, Factory, GlassWater, Leaf } from 'lucide-react';
 
 export type WasteCategory = {
   name: string;
-  id: 'paper' | 'plastic' | 'metal' | 'glass' | 'biodegradable' | 'hazardous' | 'textile';
+  id: 'paper' | 'plastic' | 'metal' | 'glass' | 'biodegradable';
   Icon: LucideIcon;
 };
 
@@ -11,9 +11,7 @@ export const wasteCategories: Record<string, WasteCategory> = {
   plastic: { id: 'plastic', name: 'Plastic', Icon: Package },
   metal: { id: 'metal', name: 'Metal', Icon: Factory },
   glass: { id: 'glass', name: 'Glass', Icon: GlassWater },
-  biodegradable: { id: 'biodegradable', name: 'Biodegradable', Icon: Leaf },
-  hazardous: { id: 'hazardous', name: 'Hazardous', Icon: Biohazard },
-  textile: { id: 'textile', name: 'Textile', Icon: Shirt },
+  biodegradable: { id: 'biodegradable', name: 'Biodegradable / Organic', Icon: Leaf },
 };
 
 export const wasteCategoryList = Object.values(wasteCategories);
