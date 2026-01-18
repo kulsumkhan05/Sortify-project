@@ -1,7 +1,7 @@
 'use client';
 
-import { useActionState, useFormStatus } from 'react';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useActionState, useEffect, useRef, useState, useMemo } from 'react';
+import { useFormStatus } from 'react-dom';
 import Image from 'next/image';
 import { classifyWaste, type FormState } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,7 +17,7 @@ const initialState: FormState = {};
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
+    <Button type="submit" className="w-full mt-4" disabled={pending}>
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -44,10 +44,12 @@ export default function WasteClassifier() {
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
-    if (state.timestamp) {
+    if (state.result && state.timestamp) {
       setShowResult(true);
+    } else if (state.error) {
+      setShowResult(false);
     }
-  }, [state.timestamp]);
+  }, [state]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -70,14 +72,16 @@ export default function WasteClassifier() {
 
   const handleTryAgain = () => {
     setShowResult(false);
-    formRef.current?.reset();
+    setImagePreview(null);
+    if(formRef.current) {
+        formRef.current.reset();
+    }
     if (imageInputRef.current) {
       imageInputRef.current.value = '';
     }
     if (cameraInputRef.current) {
       cameraInputRef.current.value = '';
     }
-    setImagePreview(null);
   };
 
   if (showResult && state.result) {
@@ -94,18 +98,17 @@ export default function WasteClassifier() {
         <form ref={formRef} action={formAction}>
           <input type="hidden" name="submissionType" value="image" />
           
-          {imagePreview ? (
-             <div className="space-y-4">
-                <div className="relative aspect-video w-full overflow-hidden rounded-md border">
-                    <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
-                     <Button type="button" size="icon" variant="destructive" className="absolute top-2 right-2 h-8 w-8 rounded-full" onClick={resetImageSelection}>
-                        <X className="h-4 w-4" />
-                        <span className="sr-only">Remove image</span>
-                    </Button>
-                </div>
-                <SubmitButton />
-             </div>
-          ) : (
+          <div className="space-y-4">
+            {imagePreview && (
+              <div className="relative aspect-video w-full overflow-hidden rounded-md border">
+                <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
+                <Button type="button" size="icon" variant="destructive" className="absolute top-2 right-2 h-8 w-8 rounded-full" onClick={resetImageSelection}>
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Remove image</span>
+                </Button>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Label htmlFor="image-upload" className="cursor-pointer p-8 rounded-lg border bg-card hover:bg-muted transition-colors flex flex-col items-center justify-center text-center">
                 <UploadCloud className="h-10 w-10 text-primary" />
@@ -119,9 +122,11 @@ export default function WasteClassifier() {
               </Label>
               <Input ref={cameraInputRef} id="camera-upload" name="image" type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="sr-only" />
             </div>
-          )}
+            
+            <SubmitButton />
+          </div>
         </form>
-        {state.error && !showResult && (
+        {state.error && (
           <Alert variant="destructive" className="mt-4">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
