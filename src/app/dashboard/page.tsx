@@ -6,8 +6,8 @@ import { wasteCategories } from "@/lib/data";
 const totalWasteClassified = 125;
 const averageConfidence = 94.2;
 const categoryData = [
-    { name: 'Plastic', count: 45 },
     { name: 'Paper', count: 30 },
+    { name: 'Plastic', count: 45 },
     { name: 'Metal', count: 15 },
     { name: 'Glass', count: 20 },
     { name: 'Biodegradable', count: 15 },
@@ -27,13 +27,13 @@ export default function DashboardPage() {
                 </p>
             </section>
 
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 mb-6">
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Total Classified</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold">{totalWasteClassified}</p>
+                        <p className="text-2xl sm:text-3xl font-bold">{totalWasteClassified}</p>
                     </CardContent>
                 </Card>
                  <Card>
@@ -41,7 +41,15 @@ export default function DashboardPage() {
                         <CardTitle>Avg. Confidence</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold">{averageConfidence.toFixed(1)}%</p>
+                        <p className="text-2xl sm:text-3xl font-bold">{averageConfidence.toFixed(1)}%</p>
+                    </CardContent>
+                </Card>
+                <Card className="md:col-span-2 lg:col-span-1">
+                    <CardHeader>
+                        <CardTitle>Items This Month</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-2xl sm:text-3xl font-bold">32</p>
                     </CardContent>
                 </Card>
             </div>
@@ -55,7 +63,7 @@ export default function DashboardPage() {
                                 <CardTitle className="text-sm font-medium">{cat.name}</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-2xl font-bold">{data?.count || 0}</p>
+                                <p className="text-xl sm:text-2xl font-bold">{data?.count || 0}</p>
                             </CardContent>
                         </Card>
                     )

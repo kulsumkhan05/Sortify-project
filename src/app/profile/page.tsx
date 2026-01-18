@@ -16,12 +16,12 @@ export default function ProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <section className="mb-8 flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
-        <Avatar className="h-24 w-24 border-4 border-primary">
+        <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-4 border-primary">
           <AvatarImage src={userData.avatarUrl} alt={userData.name} />
           <AvatarFallback>{userData.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div>
-            <h1 className="text-4xl font-bold tracking-tight text-primary md:text-5xl font-headline">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary md:text-5xl font-headline">
                 {userData.name}
             </h1>
             <p className="text-lg text-foreground/80 md:text-xl">
@@ -37,7 +37,7 @@ export default function ProfilePage() {
                 <Gem className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div className="text-2xl font-bold text-accent">{userData.points}</div>
+                <div className="text-xl sm:text-2xl font-bold text-accent">{userData.points}</div>
                 <p className="text-xs text-muted-foreground">Keep it up!</p>
             </CardContent>
         </Card>
@@ -47,7 +47,7 @@ export default function ProfilePage() {
                 <Award className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div className="text-2xl font-bold">{userData.classifiedItems}</div>
+                <div className="text-xl sm:text-2xl font-bold">{userData.classifiedItems}</div>
                 <p className="text-xs text-muted-foreground">Making a difference</p>
             </CardContent>
         </Card>
@@ -57,7 +57,7 @@ export default function ProfilePage() {
                 <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                <div className="text-2xl font-bold">{userData.averageConfidence.toFixed(1)}%</div>
+                <div className="text-xl sm:text-2xl font-bold">{userData.averageConfidence.toFixed(1)}%</div>
                 <p className="text-xs text-muted-foreground">Great accuracy!</p>
             </CardContent>
         </Card>

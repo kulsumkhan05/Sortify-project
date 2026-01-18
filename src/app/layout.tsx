@@ -26,9 +26,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={cn('min-h-screen bg-background font-body antialiased flex flex-col')}>
+      <body className={cn('min-h-screen w-full overflow-x-hidden bg-background font-body antialiased flex flex-col')}>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full">{children}</main>
         <Footer />
         <Toaster />
         <Chatbot />
