@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import Header from '@/components/header';
 import { Toaster } from '@/components/ui/toaster';
 import Chatbot from '@/components/chatbot';
+import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
   title: 'SORTIFY',
@@ -25,9 +26,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={cn('min-h-screen bg-background font-body antialiased')}>
+      <body className={cn('min-h-screen bg-background font-body antialiased flex flex-col')}>
         <Header />
         <main className="flex-1">{children}</main>
+        <Footer />
         <Toaster />
         <Chatbot />
       </body>

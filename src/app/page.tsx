@@ -5,12 +5,10 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <section className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-primary md:text-5xl lg:text-6xl font-headline">
-          SORTIFY
+        <h1 className="text-4xl font-bold tracking-tight text-primary md:text-5xl font-headline flex flex-wrap items-center justify-center gap-x-3">
+          <span>SORTIFY</span>
+          <span className="text-lg font-normal text-foreground/80 md:text-xl">- Where Smartness Turns Trash into Treasure</span>
         </h1>
-        <p className="mx-auto mt-2 max-w-3xl text-lg text-foreground/80 md:text-xl">
-          Where Smartness Turns Trash into Treasure
-        </p>
       </section>
 
       <WasteClassifier />
