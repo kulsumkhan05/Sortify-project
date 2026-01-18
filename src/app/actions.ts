@@ -2,6 +2,7 @@
 
 import { summarizeWasteCategory } from '@/ai/flows/summarize-waste-category';
 import { generateDisposalTips } from '@/ai/flows/generate-disposal-tips';
+import { classifyWasteFromImage } from '@/ai/flows/classify-waste-from-image';
 import { wasteCategories, wasteCategoryList } from '@/lib/data';
 import { z } from 'zod';
 import { ZodError } from 'zod';
@@ -35,46 +36,41 @@ export async function classifyWaste(
 ): Promise<FormState> {
   const submissionType = formData.get('submissionType');
 
-  let wasteType: string | undefined;
+  let category: string;
   let isImage = false;
   let queryDisplay = '';
+  let confidence = 0;
 
-  if (submissionType === 'text') {
-    const query = formData.get('query');
-    try {
-      const validatedData = formSchema.parse({ query });
-      wasteType = validatedData.query;
-      queryDisplay = wasteType;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return {
-          error: error.flatten().fieldErrors.query?.[0],
-        };
-      }
-      return {
-        error: 'Invalid input.',
-      }
+  if (submissionType === 'image') {
+    const imageDataUri = formData.get('imageDataUri') as string;
+    if (!imageDataUri) {
+      return { error: 'Please upload or capture an image to classify.' };
     }
-  } else if (submissionType === 'image') {
-    const image = formData.get('image') as File;
-    if (!image || image.size === 0) {
-      return { error: 'Please upload an image.' };
-    }
-    // MOCK: In a real app, you would send this image to a classification model.
-    // Here, we'll just pick a random category.
-    const randomCategory = wasteCategoryList[Math.floor(Math.random() * wasteCategoryList.length)];
-    wasteType = randomCategory.id;
-    queryDisplay = `Uploaded Image (classified as ${randomCategory.name})`;
+    
     isImage = true;
-  } else {
+    queryDisplay = `Uploaded Image`;
+
+    try {
+        const result = await classifyWasteFromImage({ photoDataUri: imageDataUri });
+        category = result.wasteType;
+        confidence = result.confidence;
+        queryDisplay = `Uploaded Image (classified as ${wasteCategories[category]?.name || category})`;
+
+    } catch(e) {
+        console.error(e);
+        return { error: 'Failed to classify the image. Please try again.' };
+    }
+  
+  } else if (submissionType === 'text' && !formData.get('imageDataUri')) {
+     return { error: 'Please upload or capture an image to classify.' };
+  }
+  else {
     return { error: 'Invalid submission type.' };
   }
 
-  if (!wasteType) {
-    return { error: 'Could not determine waste type.' };
+  if (!category) {
+    return { error: 'Could not determine waste category.' };
   }
-
-  const category = wasteType in wasteCategories ? wasteCategories[wasteType].id : wasteType;
 
   try {
     const [tipsResult, summaryResult] = await Promise.all([
@@ -83,7 +79,6 @@ export async function classifyWaste(
     ]);
 
     const points = 10 + Math.floor(Math.random() * 11); // 10-20 points
-    const confidence = Math.random() * (99.9 - 85) + 85; // Mock confidence score between 85% and 99.9%
 
     return {
       result: {
@@ -99,6 +94,6 @@ export async function classifyWaste(
     };
   } catch (e) {
     console.error(e);
-    return { error: 'An error occurred while classifying the waste. Please try again.' };
+    return { error: 'An error occurred while getting details for the waste. Please try again.' };
   }
 }
