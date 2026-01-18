@@ -1,7 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useActionState, useFormStatus } from 'react';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import Image from 'next/image';
 import { classifyWaste, type FormState } from '@/app/actions';
@@ -10,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Camera, UploadCloud, Loader2, AlertCircle, Sparkles } from 'lucide-react';
+import { Camera, UploadCloud, Loader2, AlertCircle, Sparkles, X } from 'lucide-react';
 import ClassificationResult from './classification-result';
 
 const initialState: FormState = {};
@@ -56,29 +55,27 @@ export default function WasteClassifier() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
-        setTimeout(() => {
-            if (formRef.current) {
-                const submitButton = formRef.current.querySelector('button[type="submit"]');
-                if (submitButton instanceof HTMLElement) {
-                    submitButton.click();
-                }
-            }
-        }, 100)
       };
       reader.readAsDataURL(file);
     } else {
       setImagePreview(null);
     }
   };
-  
+
+  const resetImageSelection = () => {
+    setImagePreview(null);
+    if (imageInputRef.current) imageInputRef.current.value = '';
+    if (cameraInputRef.current) cameraInputRef.current.value = '';
+  }
+
   const handleTryAgain = () => {
     setShowResult(false);
     formRef.current?.reset();
-    if(imageInputRef.current) {
-        imageInputRef.current.value = '';
+    if (imageInputRef.current) {
+      imageInputRef.current.value = '';
     }
-    if(cameraInputRef.current) {
-        cameraInputRef.current.value = '';
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = '';
     }
     setImagePreview(null);
   };
@@ -95,30 +92,36 @@ export default function WasteClassifier() {
       </CardHeader>
       <CardContent>
         <form ref={formRef} action={formAction}>
-            <input type="hidden" name="submissionType" value="image" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <Label htmlFor="image-upload" className="cursor-pointer p-8 rounded-lg border bg-card hover:bg-muted transition-colors flex flex-col items-center justify-center text-center">
-                     <UploadCloud className="h-10 w-10 text-primary" />
-                     <span className="mt-2 font-medium">Upload Image</span>
-                 </Label>
-                 <Input ref={imageInputRef} id="image-upload" name="image" type="file" accept="image/*" onChange={handleImageChange} className="sr-only" />
-
-                 <Label htmlFor="camera-upload" className="cursor-pointer p-8 rounded-lg border bg-card hover:bg-muted transition-colors flex flex-col items-center justify-center text-center">
-                     <Camera className="h-10 w-10 text-primary" />
-                     <span className="mt-2 font-medium">Take Photo</span>
-                 </Label>
-                 <Input ref={cameraInputRef} id="camera-upload" name="image" type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="sr-only" />
-            </div>
-             {imagePreview && (
-                <div className="mt-4 relative aspect-video w-full overflow-hidden rounded-md border">
-                  <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
+          <input type="hidden" name="submissionType" value="image" />
+          
+          {imagePreview ? (
+             <div className="space-y-4">
+                <div className="relative aspect-video w-full overflow-hidden rounded-md border">
+                    <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
+                     <Button type="button" size="icon" variant="destructive" className="absolute top-2 right-2 h-8 w-8 rounded-full" onClick={resetImageSelection}>
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Remove image</span>
+                    </Button>
                 </div>
-              )}
-               <div className="mt-6 hidden">
-                 <SubmitButton />
-               </div>
+                <SubmitButton />
+             </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Label htmlFor="image-upload" className="cursor-pointer p-8 rounded-lg border bg-card hover:bg-muted transition-colors flex flex-col items-center justify-center text-center">
+                <UploadCloud className="h-10 w-10 text-primary" />
+                <span className="mt-2 font-medium">Upload Image</span>
+              </Label>
+              <Input ref={imageInputRef} id="image-upload" name="image" type="file" accept="image/*" onChange={handleImageChange} className="sr-only" />
+
+              <Label htmlFor="camera-upload" className="cursor-pointer p-8 rounded-lg border bg-card hover:bg-muted transition-colors flex flex-col items-center justify-center text-center">
+                <Camera className="h-10 w-10 text-primary" />
+                <span className="mt-2 font-medium">Take Photo</span>
+              </Label>
+              <Input ref={cameraInputRef} id="camera-upload" name="image" type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="sr-only" />
+            </div>
+          )}
         </form>
-        {showResult && state.error && (
+        {state.error && !showResult && (
           <Alert variant="destructive" className="mt-4">
             <AlertCircle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
