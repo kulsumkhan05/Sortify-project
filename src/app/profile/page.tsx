@@ -15,7 +15,7 @@ const userData = {
 export default function ProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
-      <section className="mb-8 flex items-center gap-6">
+      <section className="mb-8 flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
         <Avatar className="h-24 w-24 border-4 border-primary">
           <AvatarImage src={userData.avatarUrl} alt={userData.name} />
           <AvatarFallback>{userData.name.charAt(0)}</AvatarFallback>
@@ -30,7 +30,7 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
         <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Total Points</CardTitle>

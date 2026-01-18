@@ -7,7 +7,7 @@ export default function Home() {
       <section className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-primary md:text-5xl font-headline flex flex-wrap items-center justify-center gap-x-3">
           <span>SORTIFY</span>
-          <span className="text-lg font-normal text-foreground/80 md:text-xl">- Where Smartness Turns Trash into Treasure</span>
+          <span className="text-base font-normal text-foreground/80 sm:text-lg md:text-xl">- Where Smartness Turns Trash into Treasure</span>
         </h1>
       </section>
 

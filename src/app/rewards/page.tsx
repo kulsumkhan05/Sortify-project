@@ -40,7 +40,7 @@ export default function RewardsPage() {
         </p>
       </section>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {rewards.map((reward) => (
           <Card key={reward.title} className="flex flex-col overflow-hidden transition-all hover:shadow-xl">
             <div className="relative aspect-[4/3]">

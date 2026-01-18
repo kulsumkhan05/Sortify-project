@@ -27,7 +27,7 @@ export default function DashboardPage() {
                 </p>
             </section>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 mb-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Total Classified</CardTitle>
@@ -44,6 +44,9 @@ export default function DashboardPage() {
                         <p className="text-3xl font-bold">{averageConfidence.toFixed(1)}%</p>
                     </CardContent>
                 </Card>
+            </div>
+            
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 mb-6">
                 {Object.values(wasteCategories).map(cat => {
                     const data = categoryData.find(d => d.name === cat.name || (cat.id === 'biodegradable' && d.name === 'Biodegradable'));
                     return (
@@ -59,7 +62,8 @@ export default function DashboardPage() {
                 })}
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
                 <Card>
                     <CardHeader>
                         <CardTitle>Category Distribution</CardTitle>
