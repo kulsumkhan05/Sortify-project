@@ -1,17 +1,16 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import Image from 'next/image';
 import { classifyWaste, type FormState } from '@/app/actions';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Camera, FileText, Loader2, AlertCircle, Sparkles } from 'lucide-react';
+import { Camera, UploadCloud, Loader2, AlertCircle, Sparkles } from 'lucide-react';
 import ClassificationResult from './classification-result';
 
 const initialState: FormState = {};
@@ -36,11 +35,11 @@ function SubmitButton() {
 }
 
 export default function WasteClassifier() {
-  const [state, formAction] = useFormState(classifyWaste, initialState);
-  const [activeTab, setActiveTab] = useState('text');
+  const [state, formAction] = useActionState(classifyWaste, initialState);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const resultKey = useMemo(() => state.timestamp, [state.timestamp]);
   const [showResult, setShowResult] = useState(false);
@@ -78,6 +77,9 @@ export default function WasteClassifier() {
     if(imageInputRef.current) {
         imageInputRef.current.value = '';
     }
+    if(cameraInputRef.current) {
+        cameraInputRef.current.value = '';
+    }
     setImagePreview(null);
   };
 
@@ -87,51 +89,27 @@ export default function WasteClassifier() {
 
   return (
     <Card className="mx-auto mt-8 max-w-2xl shadow-lg animate-in fade-in-0 zoom-in-95 duration-500">
-      <CardHeader>
+      <CardHeader className="text-center">
         <CardTitle className="text-2xl font-headline">What are you throwing away?</CardTitle>
-        <CardDescription>Upload a photo or describe the item to get started.</CardDescription>
+        <CardDescription>Upload a photo or use your camera to classify an item.</CardDescription>
       </CardHeader>
       <CardContent>
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="text">
-              <FileText className="mr-2 h-4 w-4" />
-              Describe Item
-            </TabsTrigger>
-            <TabsTrigger value="image">
-              <Camera className="mr-2 h-4 w-4" />
-              Upload Image
-            </TabsTrigger>
-          </TabsList>
-          <form ref={formRef} action={formAction}>
-            <TabsContent value="text" className="mt-4">
-              <input type="hidden" name="submissionType" value="text" />
-              <div className="space-y-4">
-                <div>
-                    <Label htmlFor="query">Item Description</Label>
-                    <Textarea
-                    id="query"
-                    name="query"
-                    placeholder="e.g., 'plastic water bottle', 'used pizza box', 'old t-shirt'"
-                    className="mt-1"
-                    />
-                </div>
-                 <SubmitButton />
-              </div>
-            </TabsContent>
-            <TabsContent value="image" className="mt-4">
-              <input type="hidden" name="submissionType" value="image" />
-              <div className="space-y-2 text-center">
-                <Label htmlFor="image-upload" className="cursor-pointer">
-                    <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8 text-center hover:bg-gray-50">
-                        <Camera className="h-10 w-10 text-gray-400"/>
-                        <p className="mt-2 text-sm font-medium text-gray-600">Click to upload an image</p>
-                        <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-                    </div>
-                </Label>
-                <Input ref={imageInputRef} id="image-upload" name="image" type="file" accept="image/*" onChange={handleImageChange} className="sr-only" />
-              </div>
-              {imagePreview && (
+        <form ref={formRef} action={formAction}>
+            <input type="hidden" name="submissionType" value="image" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <Label htmlFor="image-upload" className="cursor-pointer p-8 rounded-lg border bg-card hover:bg-muted transition-colors flex flex-col items-center justify-center text-center">
+                     <UploadCloud className="h-10 w-10 text-primary" />
+                     <span className="mt-2 font-medium">Upload Image</span>
+                 </Label>
+                 <Input ref={imageInputRef} id="image-upload" name="image" type="file" accept="image/*" onChange={handleImageChange} className="sr-only" />
+
+                 <Label htmlFor="camera-upload" className="cursor-pointer p-8 rounded-lg border bg-card hover:bg-muted transition-colors flex flex-col items-center justify-center text-center">
+                     <Camera className="h-10 w-10 text-primary" />
+                     <span className="mt-2 font-medium">Take Photo</span>
+                 </Label>
+                 <Input ref={cameraInputRef} id="camera-upload" name="image" type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="sr-only" />
+            </div>
+             {imagePreview && (
                 <div className="mt-4 relative aspect-video w-full overflow-hidden rounded-md border">
                   <Image src={imagePreview} alt="Image preview" fill className="object-cover" />
                 </div>
@@ -139,10 +117,7 @@ export default function WasteClassifier() {
                <div className="mt-6 hidden">
                  <SubmitButton />
                </div>
-            </TabsContent>
-           
-          </form>
-        </Tabs>
+        </form>
         {showResult && state.error && (
           <Alert variant="destructive" className="mt-4">
             <AlertCircle className="h-4 w-4" />
