@@ -30,7 +30,7 @@ export default function ActivityPage() {
           <CardTitle>Recent Classifications</CardTitle>
           <CardDescription>A log of items you've recently classified.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
