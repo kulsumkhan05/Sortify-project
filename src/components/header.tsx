@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 export default function Header() {
   const searchParams = useSearchParams();
   const isLoggedIn = searchParams.has('email');
+  const queryString = searchParams.toString();
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -17,12 +18,13 @@ export default function Header() {
     { href: '/dashboard', label: 'Dashboard' },
   ];
 
-  const profileLink = `/profile?${searchParams.toString()}`;
+  const profileLink = `/profile?${queryString}`;
+  const homeLink = `/${queryString ? `?${queryString}` : ''}`;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-screen-2xl items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
+        <Link href={homeLink} className="mr-6 flex items-center space-x-2">
           <Recycle className="h-6 w-6 text-primary" />
           <span className="font-bold sm:inline-block font-headline">
             SORTIFY
@@ -32,7 +34,7 @@ export default function Header() {
           {navLinks.map(link => (
              <Link
               key={link.href}
-              href={link.href}
+              href={`${link.href}${queryString ? `?${queryString}` : ''}`}
               className="transition-colors hover:text-foreground/80 text-foreground/60 text-base"
             >
               {link.label}
@@ -65,7 +67,7 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="right">
                 <div className="grid gap-4 py-6">
-                  <Link href="/" className="flex items-center space-x-2">
+                  <Link href={homeLink} className="flex items-center space-x-2">
                      <Recycle className="h-6 w-6 text-primary" />
                     <span className="font-bold">SORTIFY</span>
                   </Link>
@@ -73,7 +75,7 @@ export default function Header() {
                     {navLinks.map(link => (
                       <Link
                         key={link.href}
-                        href={link.href}
+                        href={`${link.href}${queryString ? `?${queryString}` : ''}`}
                         className="flex w-full items-center py-2 text-lg font-semibold"
                       >
                         {link.label}
