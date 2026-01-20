@@ -20,7 +20,7 @@ const ClassifyWasteFromImageInputSchema = z.object({
 export type ClassifyWasteFromImageInput = z.infer<typeof ClassifyWasteFromImageInputSchema>;
 
 const ClassifyWasteFromImageOutputSchema = z.object({
-  wasteType: z.enum(['paper', 'plastic', 'metal', 'glass', 'biodegradable']).describe("The type of waste identified in the image."),
+  wasteType: z.enum(['paper', 'plastic', 'metal', 'glass', 'cardboard', 'trash']).describe("The type of waste identified in the image."),
   confidence: z.number().min(0).max(100).describe("The confidence score of the classification, from 0 to 100."),
 });
 export type ClassifyWasteFromImageOutput = z.infer<typeof ClassifyWasteFromImageOutputSchema>;
@@ -33,7 +33,7 @@ const prompt = ai.definePrompt({
   name: 'classifyWasteFromImagePrompt',
   input: {schema: ClassifyWasteFromImageInputSchema},
   output: {schema: ClassifyWasteFromImageOutputSchema},
-  prompt: `You are an expert in waste classification. Analyze the provided image and classify the primary waste item into one of the following categories: paper, plastic, metal, glass, biodegradable.
+  prompt: `You are an expert in waste classification. Analyze the provided image and classify the primary waste item into one of the following categories: paper, plastic, metal, glass, cardboard, trash.
 
 Provide a confidence score for your classification.
 

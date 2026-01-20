@@ -10,10 +10,11 @@ const categoryData = [
     { name: 'Plastic', count: 45 },
     { name: 'Metal', count: 15 },
     { name: 'Glass', count: 20 },
-    { name: 'Biodegradable', count: 15 },
+    { name: 'Cardboard', count: 10 },
+    { name: 'Trash', count: 5 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF6384'];
 
 export default function DashboardPage() {
     return (
@@ -54,9 +55,9 @@ export default function DashboardPage() {
                 </Card>
             </div>
             
-            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-6">
                 {Object.values(wasteCategories).map(cat => {
-                    const data = categoryData.find(d => d.name === cat.name || (cat.id === 'biodegradable' && d.name === 'Biodegradable'));
+                    const data = categoryData.find(d => d.name === cat.name);
                     return (
                          <Card key={cat.id}>
                             <CardHeader>

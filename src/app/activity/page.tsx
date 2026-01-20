@@ -10,7 +10,8 @@ const activityLog = [
   { id: 2, item: "Newspaper", category: "paper", confidence: 95.5, date: new Date(Date.now() - 1000 * 60 * 60 * 2) },
   { id: 3, item: "Aluminum Can", category: "metal", confidence: 99.1, date: new Date(Date.now() - 1000 * 60 * 60 * 24) },
   { id: 4, item: "Glass Jar", category: "glass", confidence: 97.8, date: new Date(Date.now() - 1000 * 60 * 60 * 48) },
-  { id: 5, item: "Apple Core", category: "biodegradable", confidence: 92.3, date: new Date(Date.now() - 1000 * 60 * 60 * 72) },
+  { id: 5, item: "Cardboard Box", category: "cardboard", confidence: 94.0, date: new Date(Date.now() - 1000 * 60 * 60 * 72) },
+  { id: 6, item: "Used Napkin", category: "trash", confidence: 91.2, date: new Date(Date.now() - 1000 * 60 * 60 * 96) },
 ];
 
 export default function ActivityPage() {
