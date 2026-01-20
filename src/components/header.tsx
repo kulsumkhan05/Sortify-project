@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Recycle, Gem, User, Menu } from 'lucide-react';
+import { Recycle, LogIn, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
@@ -32,20 +32,12 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end gap-2">
-          <div className="hidden md:flex items-center gap-2">
-            <Button asChild size="sm" variant="secondary">
-              <Link href="/rewards">
-                <Gem className="mr-2 h-4 w-4" />
-                <span>150 Points</span>
-              </Link>
+            <Button asChild className="hidden md:flex">
+                <Link href="/login">
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Login
+                </Link>
             </Button>
-            <Button asChild size="icon" variant="ghost">
-              <Link href="/profile">
-                <User />
-                <span className="sr-only">Profile</span>
-              </Link>
-            </Button>
-          </div>
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -72,16 +64,10 @@ export default function Header() {
                     ))}
                   </nav>
                   <div className="flex flex-col gap-4 mt-4">
-                     <Button asChild size="sm" variant="secondary">
-                      <Link href="/rewards">
-                        <Gem className="mr-2 h-4 w-4" />
-                        <span>150 Points</span>
-                      </Link>
-                    </Button>
-                    <Button asChild variant="outline">
-                      <Link href="/profile">
-                        <User className="mr-2 h-4 w-4"/>
-                        Profile
+                     <Button asChild>
+                      <Link href="/login">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        Login / Sign Up
                       </Link>
                     </Button>
                   </div>
