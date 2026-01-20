@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +17,22 @@ import Link from "next/link";
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleLogin = () => {
+    if (email) {
+      // Simulate retrieving user from a "database" (localStorage)
+      const users = JSON.parse(localStorage.getItem('sortify-users') || '{}');
+      const name = users[email];
+
+      // If user exists, go to their profile with their name. Otherwise, just use email.
+      if (name) {
+        router.push(`/profile?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`);
+      } else {
+        router.push(`/profile?email=${encodeURIComponent(email)}`);
+      }
+    }
+  };
 
   return (
     <div className="flex items-center justify-center py-12">
@@ -51,8 +68,8 @@ export default function LoginPage() {
               </div>
               <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <Button asChild className="w-full">
-              <Link href={`/profile?email=${encodeURIComponent(email)}`}>Login</Link>
+            <Button onClick={handleLogin} className="w-full">
+              Login
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">

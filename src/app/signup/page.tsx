@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +17,19 @@ import Link from "next/link";
 export default function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const router = useRouter();
+
+  const handleSignup = () => {
+    if (name && email) {
+      // Simulate saving user to a "database" (localStorage)
+      const users = JSON.parse(localStorage.getItem('sortify-users') || '{}');
+      users[email] = name;
+      localStorage.setItem('sortify-users', JSON.stringify(users));
+      
+      // Navigate to profile
+      router.push(`/profile?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center py-12">
@@ -53,8 +67,8 @@ export default function SignupPage() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" required />
             </div>
-            <Button asChild className="w-full">
-              <Link href={`/profile?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`}>Create an account</Link>
+            <Button onClick={handleSignup} className="w-full">
+              Create an account
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
