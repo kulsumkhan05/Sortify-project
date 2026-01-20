@@ -14,7 +14,6 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 export default function SignupPage() {
-  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
 
   return (
@@ -28,16 +27,6 @@ export default function SignupPage() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
-            <div className="grid gap-2">
-                <Label htmlFor="full-name">Full name</Label>
-                <Input
-                  id="full-name"
-                  placeholder="Eco Warrior"
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                />
-            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -54,7 +43,7 @@ export default function SignupPage() {
               <Input id="password" type="password" required />
             </div>
             <Button asChild className="w-full">
-              <Link href={`/profile?name=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}`}>Create an account</Link>
+              <Link href={`/profile?email=${encodeURIComponent(email)}`}>Create an account</Link>
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">

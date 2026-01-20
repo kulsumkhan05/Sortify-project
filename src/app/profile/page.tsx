@@ -2,10 +2,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Gem, Award, Target } from "lucide-react";
 
-export default function ProfilePage({ searchParams }: { searchParams: { name?: string; email?: string } }) {
+export default function ProfilePage({ searchParams }: { searchParams: { email?: string } }) {
 
-  const name = searchParams?.name || "New User";
   const email = searchParams?.email || "user@example.com";
+  
+  const getDisplayNameFromEmail = (email: string) => {
+    if (!email || !email.includes('@')) {
+        return "User";
+    }
+    const username = email.split('@')[0];
+    return username.charAt(0).toUpperCase() + username.slice(1);
+  }
+
+  const name = getDisplayNameFromEmail(email);
 
   // Mock user data for a new user
   const userData = {
