@@ -1,8 +1,13 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Gem, Award, Target } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Gem, Award, Target, LogOut } from "lucide-react";
 
 export default function ProfilePage({ searchParams }: { searchParams: { name?: string, email?: string } }) {
+  const router = useRouter();
 
   const email = searchParams?.email || "user@example.com";
   
@@ -24,6 +29,10 @@ export default function ProfilePage({ searchParams }: { searchParams: { name?: s
     points: 0,
     classifiedItems: 0,
     averageConfidence: 0,
+  };
+
+  const handleLogout = () => {
+    router.push('/login');
   };
 
   return (
@@ -82,7 +91,10 @@ export default function ProfilePage({ searchParams }: { searchParams: { name?: s
           <CardDescription>Manage your account settings.</CardDescription>
         </CardHeader>
         <CardContent>
-            <p className="text-muted-foreground">Account settings will be available here.</p>
+            <Button variant="outline" onClick={handleLogout} className="w-full sm:w-auto">
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
         </CardContent>
       </Card>
     </div>
