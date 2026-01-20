@@ -2,14 +2,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Gem, Award, Target } from "lucide-react";
 
-// Mock user data
+// Mock user data for a new user
 const userData = {
-  name: "Eco Warrior",
-  email: "eco.warrior@example.com",
-  avatarUrl: "https://picsum.photos/seed/user-avatar/200/200",
-  points: 150,
-  classifiedItems: 5,
-  averageConfidence: 96.58,
+  name: "New User",
+  email: "user@example.com",
+  avatarUrl: "https://picsum.photos/seed/new-user/200/200",
+  points: 0,
+  classifiedItems: 0,
+  averageConfidence: 0,
 };
 
 export default function ProfilePage() {
@@ -38,7 +38,7 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent>
                 <div className="text-xl sm:text-2xl font-bold text-accent">{userData.points}</div>
-                <p className="text-xs text-muted-foreground">Keep it up!</p>
+                <p className="text-xs text-muted-foreground">Start classifying to earn points!</p>
             </CardContent>
         </Card>
         <Card>
@@ -48,7 +48,7 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent>
                 <div className="text-xl sm:text-2xl font-bold">{userData.classifiedItems}</div>
-                <p className="text-xs text-muted-foreground">Making a difference</p>
+                <p className="text-xs text-muted-foreground">No items classified yet</p>
             </CardContent>
         </Card>
         <Card>
@@ -58,7 +58,7 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent>
                 <div className="text-xl sm:text-2xl font-bold">{userData.averageConfidence.toFixed(1)}%</div>
-                <p className="text-xs text-muted-foreground">Great accuracy!</p>
+                <p className="text-xs text-muted-foreground">N/A</p>
             </CardContent>
         </Card>
       </div>
