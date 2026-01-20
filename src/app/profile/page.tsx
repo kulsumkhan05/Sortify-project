@@ -2,23 +2,27 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Gem, Award, Target } from "lucide-react";
 
-// Mock user data for a new user
-const userData = {
-  name: "New User",
-  email: "user@example.com",
-  avatarUrl: "https://picsum.photos/seed/new-user/200/200",
-  points: 0,
-  classifiedItems: 0,
-  averageConfidence: 0,
-};
+export default function ProfilePage({ searchParams }: { searchParams: { name?: string; email?: string } }) {
 
-export default function ProfilePage() {
+  const name = searchParams?.name || "New User";
+  const email = searchParams?.email || "user@example.com";
+
+  // Mock user data for a new user
+  const userData = {
+    name: name,
+    email: email,
+    avatarUrl: `https://picsum.photos/seed/${name.replace(/\s/g, '-')}/200/200`,
+    points: 0,
+    classifiedItems: 0,
+    averageConfidence: 0,
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <section className="mb-8 flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
         <Avatar className="h-20 w-20 sm:h-24 sm:w-24 border-4 border-primary">
           <AvatarImage src={userData.avatarUrl} alt={userData.name} />
-          <AvatarFallback>{userData.name.charAt(0)}</AvatarFallback>
+          <AvatarFallback>{userData.name.charAt(0).toUpperCase()}</AvatarFallback>
         </Avatar>
         <div>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-primary md:text-5xl font-headline">

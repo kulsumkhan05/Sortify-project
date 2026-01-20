@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,6 +14,9 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <div className="flex items-center justify-center py-12">
       <Card className="mx-auto max-w-sm">
@@ -29,6 +35,8 @@ export default function LoginPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -41,10 +49,10 @@ export default function LoginPage() {
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <Button asChild className="w-full">
-              <Link href="/profile">Login</Link>
+              <Link href={`/profile?email=${encodeURIComponent(email)}`}>Login</Link>
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">

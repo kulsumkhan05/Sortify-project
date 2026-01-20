@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,6 +14,9 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 export default function SignupPage() {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+
   return (
     <div className="flex items-center justify-center py-12">
       <Card className="mx-auto max-w-sm">
@@ -24,7 +30,13 @@ export default function SignupPage() {
           <div className="grid gap-4">
             <div className="grid gap-2">
                 <Label htmlFor="full-name">Full name</Label>
-                <Input id="full-name" placeholder="Eco Warrior" required />
+                <Input
+                  id="full-name"
+                  placeholder="Eco Warrior"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
@@ -33,6 +45,8 @@ export default function SignupPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -40,7 +54,7 @@ export default function SignupPage() {
               <Input id="password" type="password" required />
             </div>
             <Button asChild className="w-full">
-              <Link href="/profile">Create an account</Link>
+              <Link href={`/profile?name=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}`}>Create an account</Link>
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
