@@ -31,7 +31,7 @@ export default function RewardsPage() {
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <section className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-primary md:text-5xl lg:text-6xl font-headline">
+        <h1 className="text-3xl font-bold tracking-tight text-primary">
           Your Rewards
         </h1>
         <p className="mt-4 flex items-center justify-center gap-2 text-2xl font-semibold text-accent">

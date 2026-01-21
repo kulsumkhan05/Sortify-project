@@ -18,7 +18,7 @@ export default function DashboardPage() {
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
             <section className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight text-primary md:text-4xl lg:text-5xl font-headline">
+                <h1 className="text-3xl font-bold tracking-tight text-primary">
                     Dashboard
                 </h1>
                 <p className="mx-auto mt-4 max-w-3xl text-lg text-foreground/80 md:text-xl">
