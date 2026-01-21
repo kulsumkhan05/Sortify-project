@@ -1,14 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Recycle, LogIn, Menu, User, LogOut } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Recycle, LogIn, Menu, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export default function Header() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const isLoggedIn = searchParams.has('email');
   const queryString = searchParams.toString();
 
@@ -21,10 +20,6 @@ export default function Header() {
 
   const profileLink = `/profile?${queryString}`;
   const homeLink = `/${queryString ? `?${queryString}` : ''}`;
-
-  const handleLogout = () => {
-    router.push('/login');
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -54,10 +49,6 @@ export default function Header() {
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </Link>
-                </Button>
-                <Button variant="outline" onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
                 </Button>
               </div>
             ) : (
@@ -101,10 +92,6 @@ export default function Header() {
                                   <User className="mr-2 h-4 w-4" />
                                   Profile
                               </Link>
-                          </Button>
-                          <Button variant="outline" onClick={handleLogout}>
-                              <LogOut className="mr-2 h-4 w-4" />
-                              Logout
                           </Button>
                         </>
                      ) : (
