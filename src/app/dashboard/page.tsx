@@ -1,10 +1,8 @@
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { wasteCategories } from "@/lib/data";
 
 const totalWasteClassified = 125;
-const averageConfidence = 94.2;
 const categoryData = [
     { name: 'Paper', count: 30 },
     { name: 'Plastic', count: 45 },
@@ -20,7 +18,7 @@ export default function DashboardPage() {
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
             <section className="mb-8">
-                <h1 className="text-4xl font-bold tracking-tight text-primary md:text-5xl lg:text-6xl font-headline">
+                <h1 className="text-3xl font-bold tracking-tight text-primary md:text-4xl lg:text-5xl font-headline">
                     Dashboard
                 </h1>
                 <p className="mx-auto mt-4 max-w-3xl text-lg text-foreground/80 md:text-xl">
@@ -28,7 +26,7 @@ export default function DashboardPage() {
                 </p>
             </section>
 
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-6">
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 mb-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Total Classified</CardTitle>
@@ -37,15 +35,7 @@ export default function DashboardPage() {
                         <p className="text-2xl sm:text-3xl font-bold">{totalWasteClassified}</p>
                     </CardContent>
                 </Card>
-                 <Card>
-                    <CardHeader>
-                        <CardTitle>Avg. Confidence</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-2xl sm:text-3xl font-bold">{averageConfidence.toFixed(1)}%</p>
-                    </CardContent>
-                </Card>
-                <Card className="md:col-span-2 lg:col-span-1">
+                <Card>
                     <CardHeader>
                         <CardTitle>Items This Month</CardTitle>
                     </CardHeader>
@@ -54,23 +44,6 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
             </div>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mb-6">
-                {Object.values(wasteCategories).map(cat => {
-                    const data = categoryData.find(d => d.name === cat.name);
-                    return (
-                         <Card key={cat.id}>
-                            <CardHeader>
-                                <CardTitle className="text-sm font-medium">{cat.name}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-xl sm:text-2xl font-bold">{data?.count || 0}</p>
-                            </CardContent>
-                        </Card>
-                    )
-                })}
-            </div>
-
 
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
                 <Card>
