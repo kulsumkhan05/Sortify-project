@@ -1,6 +1,6 @@
-.venv/
 venv/
-node_modules/
+venv_new/
+.venv/
 __pycache__/
+*.dll
 *.pyc
-dist/
